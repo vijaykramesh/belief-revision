@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  br-redis:
+    image: redis:alpine
+    command: "redis-server --port ${REDIS_PORT:-6379}"
+    ports:
+      - "${REDIS_PORT:-6379}:${REDIS_PORT:-6379}"
+    profiles:
+      - redis
