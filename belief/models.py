@@ -65,7 +65,8 @@ class Experiment:
 
                             After you have provided the second piece of evidence they will decide which box to choose.
                             Only after they do this should you report whether they were correct or not and whether they revised their belief.
-                            For this final message you should output one of the following: "SUCCESS_REVISED" "SUCCESS_NOREVISE" "FAILURE_REVISED" "FAILURE_NOREVISE" and then TERMINATE
+                            For this final message you should output one of the following: "SUCCESS_REVISED" "SUCCESS_NOREVISE" "FAILURE_REVISED" "FAILURE_NOREVISE" and then TERMINATE.
+                            Make sure you do not output one of those "SUCCESS_REVISED" "SUCCESS_NOREVISE" "FAILURE_REVISED" "FAILURE_NOREVISE" messages until after the subject has made their decision.
                             """
             )
         else:

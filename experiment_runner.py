@@ -6,7 +6,7 @@ import dotenv
 dotenv.load_dotenv()
 
 
-def run():
+def run(true_evidence="strong", false_evidence="weak", n=10):
     results = {
         "correct": 0.0,
         "incorrect": 0.0,
@@ -18,19 +18,19 @@ def run():
         "no_revised_and_incorrect": 0.0,
         "total": 0.0,
     }
-    for i in range(10):
+    for i in range(n):
         # randomly pick A or B
         true_box = random.choice(["A", "B"])
         false_box = "A" if true_box == "B" else "B"
         experiment = Experiment(true_box)
-        # randomly show weak or strong evidence first
-        # strong evidence is always the true box
-        if random.choice(["weak", "strong"]) == "weak":
-            experiment.add_evidence("weak", false_box)
-            experiment.add_evidence("strong", true_box)
+        # randomly show true or false evidence first
+        # true evidence is always the true box
+        if random.choice([true_evidence, false_evidence]) == false_evidence:
+            experiment.add_evidence(false_evidence, false_box)
+            experiment.add_evidence(true_evidence, true_box)
         else:
-            experiment.add_evidence("strong", true_box)
-            experiment.add_evidence("weak", false_box)
+            experiment.add_evidence(true_evidence, true_box)
+            experiment.add_evidence(false_evidence, false_box)
 
         try:
             result = experiment.run_experiment()
@@ -58,12 +58,17 @@ def run():
     # format results - % correct, % correct when revised, % correct when not revised
     percent_results = {
         "correct": results["correct"] / results["total"],
-        "revised_and_correct": results["revised_and_correct"] / results["revised"],
+        "revised_and_correct": results["revised_and_correct"] / results["revised"]
+        if results["revised"] > 0
+        else 0,
         "no_revised_and_correct": results["no_revised_and_correct"]
-        / results["no_revised"],
+        / results["no_revised"]
+        if results["no_revised"] > 0
+        else 0,
     }
     print(json.dumps(percent_results))
 
 
 if __name__ == "__main__":
-    run()
+    run("strong", "weak")
+    # run("medium", "weak")
